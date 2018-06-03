@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
+import { connect } from 'react-redux'
 
-//validations 
 import {checkEmail, checkPassword} from '../../../helpers/authValidations'
 
-// dumbs
 import DataField from '../../elementary/DataField'
 
 class SignIn extends Component {
 
     render () {
-        const {handleSubmit} = this.props
+        const {
+            handleSubmit,
+            signinError} = this.props
         
         return (
             <form
@@ -39,6 +40,7 @@ class SignIn extends Component {
                         type = 'password' />
                 </div>
                 <button type="submit">Submit</button>
+                <p> {signinError} </p>
             </form>
         )
     }
@@ -58,4 +60,10 @@ SignIn = reduxForm({
         return errors
     }})(SignIn)
 
-export default SignIn
+const mapStateToProps = (state, ownProps) => {
+    return {
+        signinError: state.auth.errors.signin
+    }
+}
+
+export default connect(mapStateToProps)(SignIn)

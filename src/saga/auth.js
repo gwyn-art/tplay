@@ -4,17 +4,22 @@ import { authRef } from '../database/firebase'
 
 function* signup (action) {
     try {
-        const request = yield call(
+        const newUser = yield call(
             ({email, password}) => authRef.createUserWithEmailAndPassword(email, password), {
                 email: action.userEmail,
                 password: action.userPassword
         })
+        
+        yield call(() => newUser.user.sendEmailVerification())
+        
         yield put({
-                ...action,
                 type: TYPES.SIGNUP_SUCCESS,  
-                request})
+        })
     } catch (error) {
-        console.log(error);
+       yield put({
+           type: TYPES.SIGNUP_ERROR,
+           message: error.message
+       })
     }
 }
 
@@ -25,13 +30,23 @@ function* signin (action) {
                 email: action.userEmail,
                 password: action.userPassword
         })
-        console.log(request)
-        yield put({
-                ...action,
+
+        if(!request.user.emailVerified) {
+            yield put ({
+                type: TYPES.SIGNIN_ERROR,
+                message: 'Email not verifired.'
+            })
+        }
+        else {
+            yield put({
                 type: TYPES.SIGNIN_SUCCESS,  
-                ...request})
+                ...request.user})
+        }
     } catch (error) {
-        console.log(error);
+        yield put({
+            type: TYPES.SIGNIN_ERROR,
+            message: error.message
+        })
     }
 }
 

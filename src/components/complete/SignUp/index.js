@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
+import { connect } from 'react-redux'
 
 //validations 
 import {checkEmail, checkPassword, checkUsername} from '../../../helpers/authValidations'
@@ -11,7 +12,10 @@ import DataField from '../../elementary/DataField'
 class Signup extends Component {
 
     render () {
-        const {handleSubmit} = this.props
+        const {
+            handleSubmit, 
+            emailSend,
+            signupError } = this.props
         
         return (
             <form
@@ -49,6 +53,12 @@ class Signup extends Component {
                         component = {DataField} 
                         type = 'password' />
                 </div>
+                {
+                    emailSend ? <p> Email send. Confirm to go next </p> : null 
+                }
+                <p>
+                    {signupError}
+                </p>
                 <button type="submit">Submit</button>
             </form>
         )
@@ -70,4 +80,11 @@ Signup = reduxForm({
         return errors
     }})(Signup)
 
-export default Signup
+const mapStateToProps = (state, ownProps) => {
+    return {
+        emailSend: state.auth.emailSend,
+        signupError: state.auth.errors.signup
+    }
+}
+
+export default connect(mapStateToProps)(Signup)

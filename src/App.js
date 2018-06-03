@@ -16,7 +16,7 @@ class App extends Component {
 
   componentDidMount () {
     authRef.onAuthStateChanged(user => {
-      if (user) {
+      if (user && user.emailVerified) {
         this.props.signinSuccess(user.providerData[0])
       } else {
         signout()
@@ -52,16 +52,9 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    signinSuccess: (userData) => {
-      dispatch({
-        type: 'SIGNIN_SUCCESS',
-        ...userData
-      })
-    },
+const mapDispatchToProps =  {
+    signinSuccess,
     signout
-  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
