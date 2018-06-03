@@ -11,8 +11,8 @@ export const signin = (userdata) => ({
 })
 
 export const signinSuccess = (userdata) => ({
+    ...userdata,
     type: TYPES.SIGNIN_SUCCESS,
-    ...userdata
 })
 
 export const signout = () => ({

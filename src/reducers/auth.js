@@ -1,4 +1,5 @@
-import TYPES from "../actions/types";
+import TYPES from "../actions/types"
+import {authRef} from '../database/firebase'
 
 const initState = {
   loggedIn: false,
@@ -6,6 +7,7 @@ const initState = {
 }
 
 export default (state = initState, action) => {
+  console.log('action: ', action);
   switch (action.type) {
     case TYPES.SIGNUP_SUCCESS:
       return {
@@ -18,6 +20,8 @@ export default (state = initState, action) => {
         userData: action
       }
     case TYPES.SIGNOUT:
+      authRef.signOut()
+      
       return {
         loggedIn: false,
         userData: null

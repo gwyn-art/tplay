@@ -3,6 +3,8 @@ import { Route, Link, withRouter } from 'react-router-dom'
 import {connect} from 'react-redux'
 
 import Home from './pages/Home'
+import CreateInvite from './pages/CreateInvite'
+import Header from './components/complete/Header'
 
 import {signinSuccess, signout} from './actions/auth'
 import {authRef} from './database/firebase'
@@ -13,10 +15,9 @@ class App extends Component {
   }
 
   componentDidMount () {
-    const {signinSuccess, signout} = this.props
-    authRef.onAuthStateChanged(function(user) {
+    authRef.onAuthStateChanged(user => {
       if (user) {
-        signinSuccess(user)
+        this.props.signinSuccess(user.providerData[0])
       } else {
         signout()
       }
@@ -25,12 +26,19 @@ class App extends Component {
 
   render() {
     const {loggedIn} = this.props
+
     return (
       <div className="App">
         {
-          !loggedIn ?
-          <Route exact path="/" render={() => <Home {...this.props} /> } />
-          : 'Hello'
+          loggedIn ? (
+            <div>
+              <Header/>
+              <Route exact path ='/' render = {() => <CreateInvite {...this.props}/>} />
+            </div>
+          )
+          : (
+            <Route exact path = "/" render={() => <Home {...this.props} /> } />
+          )
         }
         
       </div>
@@ -46,7 +54,12 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    signinSuccess,
+    signinSuccess: (userData) => {
+      dispatch({
+        type: 'SIGNIN_SUCCESS',
+        ...userData
+      })
+    },
     signout
   }
 }

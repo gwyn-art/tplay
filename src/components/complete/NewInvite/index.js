@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {addInvite, getInvites} from '../../../actions/invitesActions'
+import {addInvite} from '../../../actions/invitesActions'
 
 class NewInvite extends Component {
     constructor (props) {
@@ -10,10 +10,6 @@ class NewInvite extends Component {
         this.state = {
             game: ''
         }
-    }
-
-    componentDidMount () {
-        this.props.getInvites()
     }
 
     render () {
@@ -29,9 +25,6 @@ class NewInvite extends Component {
                     onClick = {() => addInvite(this.state.game)}> 
                     Submit 
                 </button>
-                <div>
-                    {invites.map(i => (<p>{i.game}</p>))}
-                </div>
             </div>
         )
     }
@@ -39,12 +32,10 @@ class NewInvite extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        invites: state.invites
     }
 }
 const mapDispatchToProps = {
-    addInvite,
-    getInvites
+    addInvite
   };
   
 
