@@ -4,11 +4,13 @@ import { connect } from 'react-redux'
 import { signout } from '../../../actions/auth'
 
 const Header = (props) => {
-    const {signout} = props
+    const {signout, userData} = props
 
     return (
         <div>
-            
+            <span>
+                Hello {userData.displayName}
+            </span>
             <button
                 onClick = {() => signout()}>
                 Sign Out

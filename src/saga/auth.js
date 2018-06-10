@@ -12,6 +12,10 @@ function* signup (action) {
         
         yield call(() => newUser.user.sendEmailVerification())
         
+        yield call(() => newUser.user.updateProfile({
+            displayName: action.username
+        }))
+
         yield put({
                 type: TYPES.SIGNUP_SUCCESS,  
         })
