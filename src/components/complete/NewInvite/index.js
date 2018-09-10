@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addInvite } from '../../../actions/invitesActions';
+import { addInvite } from '../../../actions/invites';
 
 class NewInvite extends Component {
 	constructor(props) {
