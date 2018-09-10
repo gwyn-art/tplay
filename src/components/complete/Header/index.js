@@ -1,32 +1,27 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import { signout } from '../../../actions/auth'
+import { signout } from '../../../actions/auth';
 
-const Header = (props) => {
-    const {signout, userData} = props
+const Header = props => {
+	const { signout, userData } = props;
 
-    return (
-        <div>
-            <span>
-                Hello {userData.displayName}
-            </span>
-            <button
-                onClick = {() => signout()}>
-                Sign Out
-            </button>
-        </div>
-    )
-}
+	return (
+		<div>
+			<span>Hello {userData.displayName}</span>
+			<button onClick={() => signout()}>Sign Out</button>
+		</div>
+	);
+};
 
 const mapStateToProps = (state, ownProps) => {
-    return {
-        userData: state.auth.userData
-    }
-}
+	return {
+		userData: state.auth.userData
+	};
+};
 
-const mapDispatchToProps = { 
-    signout
-}
+const mapDispatchToProps = {
+	signout
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header)
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

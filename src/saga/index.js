@@ -1,9 +1,6 @@
-import invites from './invites'
-import auth from './auth'
+import invites from './invites';
+import auth from './auth';
 
 export default function* rootSaga() {
-    yield [
-        invites(),
-        auth()
-    ];
-  }
+	yield [invites(), auth()];
+}
